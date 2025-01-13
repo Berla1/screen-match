@@ -1,15 +1,25 @@
 package br.com.alura.screenmatch.model;
-
-
+import jakarta.persistence.*;
 
 import java.util.OptionalDouble;
 
+@Entity
+@Table(name = "series")
 public class Serie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true)
     private String titulo;
+
     private Integer totalTemporadas;
     private Double avaliacao;
+
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String atores;
+
     private String poster;
     private String sinopse;
 
@@ -25,6 +35,8 @@ public class Serie {
         this.sinopse = dadosSerie.sinopse();
 
     }
+
+    public Serie() {} // construtor sem parametros para o jpa instanciar o objeto
 
     @Override
     public String toString() {
@@ -98,5 +110,13 @@ public class Serie {
     public Serie setPoster(String poster) {
         this.poster = poster;
         return this;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
