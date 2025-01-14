@@ -24,7 +24,7 @@ public class Serie {
 
     private String poster;
     private String sinopse;
-    @Transient
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios = new ArrayList<>();
 
     public Serie(DadosSerie dadosSerie){
@@ -37,7 +37,6 @@ public class Serie {
         this.atores = dadosSerie.atores();
         this.poster = dadosSerie.poster();
         this.sinopse = dadosSerie.sinopse();
-
     }
 
     public Serie() {} // construtor sem parametros para o jpa instanciar o objeto
@@ -122,5 +121,14 @@ public class Serie {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
+        this.episodios = episodios;
     }
 }
