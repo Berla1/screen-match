@@ -37,8 +37,7 @@ public class Episodio {
         }
     }
 
-    public Episodio() {
-    }
+    public Episodio() {}
 
     public Long getId() {
         return id;
