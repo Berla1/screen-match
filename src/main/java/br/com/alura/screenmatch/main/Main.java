@@ -1,14 +1,12 @@
 package br.com.alura.screenmatch.main;
 
-import br.com.alura.screenmatch.model.DadosSerie;
-import br.com.alura.screenmatch.model.DadosTemporada;
-import br.com.alura.screenmatch.model.Episodio;
-import br.com.alura.screenmatch.model.Serie;
+import br.com.alura.screenmatch.model.*;
 import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.SQLOutput;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -38,6 +36,7 @@ public class Main {
                     4 - Buscar série por título
                     5 - Buscar séries por ator
                     6 - Buscar top 5 séries
+                    7 - Buscar séries por categoria
                     
                     0 - Sair
                     """;
@@ -64,6 +63,9 @@ public class Main {
                     break;
                 case 6:
                     buscarTopSeries();
+                    break;
+                case 7:
+                    buscarSeriePorCategoria();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -156,5 +158,15 @@ public class Main {
     private void buscarTopSeries(){
         List<Serie> topSeries = repositorio.findTop5ByOrderByAvaliacaoDesc();
         topSeries.forEach(s -> System.out.println("Título: " + s.getTitulo() + " avaliação: " + s.getAvaliacao()));
+    }
+
+    private void buscarSeriePorCategoria(){
+        System.out.print("Digite a categoria desejada: ");
+        var categoriaUser =  leitura.next();
+        Categoria categoria = Categoria.fromPortugues(categoriaUser);
+        List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+
+        System.out.println("Series listadas pela categoria " + categoriaUser);
+        seriesPorCategoria.forEach(s -> System.out.println("Título: " + s.getTitulo() + " avaliação: " + s.getAvaliacao()));
     }
 }
