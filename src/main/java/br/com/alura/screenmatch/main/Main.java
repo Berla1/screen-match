@@ -180,7 +180,7 @@ public class Main {
         System.out.print("Digite a avaliação mínima: ");
         var minAvaliacao = leitura.nextDouble();
 
-        List<Serie> seriesMaxTemporada = repositorio.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(maxTemporadas, minAvaliacao);
+        List<Serie> seriesMaxTemporada = repositorio.seriesPorTemporadaEAvaliacao(maxTemporadas, minAvaliacao);
         seriesMaxTemporada.forEach(s -> System.out.println("Título: " + s.getTitulo() + " avaliação: " + s.getAvaliacao() + "\n"));
 
 
