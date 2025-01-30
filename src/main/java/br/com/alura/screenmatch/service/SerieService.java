@@ -24,11 +24,16 @@ public class SerieService {
         return converteDados(serieRepository.findTop5ByOrderByAvaliacaoDesc());
     }
 
+    public List<SerieDTO> obterLancamentos() {
+        return converteDados(serieRepository.findTop5ByOrderByEpisodiosDataLancamentoDesc());
+    }
+
     private List<SerieDTO> converteDados(List<Serie> series){
         return serieRepository.findAll()
                 .stream()
                 .map(s -> new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(), s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse()))
                 .collect(Collectors.toList());
     }
+
 
 }
