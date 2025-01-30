@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 public class Main {
 
+    //Classe utilizada para cadastrar novas séries
+
     private Scanner leitura = new Scanner(System.in);
     private ConsumoApi consumo = new ConsumoApi();
     private ConverteDados conversor = new ConverteDados();

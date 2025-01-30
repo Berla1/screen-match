@@ -1,28 +1,29 @@
 package br.com.alura.screenmatch.controller;
 
 import br.com.alura.screenmatch.dto.SerieDTO;
-import br.com.alura.screenmatch.repository.SerieRepository;
+
+import br.com.alura.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
+@RequestMapping("/series") // define o "URL padrão" que no caso é /series
 public class SerieController {
-    @Autowired
-    private SerieRepository serieRepository;
 
-    @GetMapping("/")
+    @Autowired
+    private SerieService service;
+
+    @GetMapping
     public List<SerieDTO> obterSeries(){
-        return serieRepository.findAll().stream()
-                .map(s -> new SerieDTO(s.getId(),
-                        s.getTitulo(),
-                        s.getTotalTemporadas(),
-                        s.getAvaliacao(),
-                        s.getGenero(),
-                        s.getAtores(),
-                        s.getPoster(), s.getSinopse())).collect(Collectors.toList());
+        return service.obterSeries();
+    }
+
+    @GetMapping("top5")
+    public List<SerieDTO> obterTop5Series(){
+        return service.top5Series();
     }
 }
