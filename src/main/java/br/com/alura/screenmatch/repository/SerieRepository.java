@@ -3,6 +3,7 @@ package br.com.alura.screenmatch.repository;
 import br.com.alura.screenmatch.model.Categoria;
 import br.com.alura.screenmatch.model.Episodio;
 import br.com.alura.screenmatch.model.Serie;
+import org.antlr.v4.runtime.atn.EpsilonTransition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -33,4 +34,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
             "GROUP BY s " +
             "ORDER BY MAX(e.dataLancamento) DESC LIMIT 5")
     List<Serie> lancamentosMaisRecentes();
+
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s.id = :id AND e.temporada = :numero")
+    List<Episodio> obterEpisodiosPorTemporada(Long id, Long numero);
 }

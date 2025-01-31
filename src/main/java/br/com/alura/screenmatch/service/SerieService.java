@@ -19,7 +19,7 @@ public class SerieService {
     @Autowired
     private SerieRepository serieRepository;
 
-    public List<SerieDTO> top5Series(){
+    public List<SerieDTO> top5Series() {
         return converteDados(serieRepository.findAll());
     }
 
@@ -28,22 +28,23 @@ public class SerieService {
     }
 
     public List<SerieDTO> obterLancamentos() {
-        return converteDados(serieRepository    .lancamentosMaisRecentes());
+        return converteDados(serieRepository.lancamentosMaisRecentes());
     }
 
-    public SerieDTO obterPorId(Long id){
-        Optional<Serie> serie =  serieRepository.findById(id);
+    public SerieDTO obterPorId(Long id) {
+        Optional<Serie> serie = serieRepository.findById(id);
 
-        if (serie.isPresent()){
+        if (serie.isPresent()) {
             Serie s = serie.get();
             return new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(), s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse());
         }
         return null;
     }
-    public List<EpisodioDTO> obterTemporadas(Long id) {
-        Optional<Serie> serie =  serieRepository.findById(id);
 
-        if (serie.isPresent()){
+    public List<EpisodioDTO> obterTemporadas(Long id) {
+        Optional<Serie> serie = serieRepository.findById(id);
+
+        if (serie.isPresent()) {
             Serie s = serie.get();
             return s.getEpisodios().stream()
                     .map(e -> new EpisodioDTO(e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo()))
@@ -51,7 +52,8 @@ public class SerieService {
         }
         return null;
     }
-    private List<SerieDTO> converteDados(List<Serie> series){
+
+    private List<SerieDTO> converteDados(List<Serie> series) {
         return serieRepository.findAll()
                 .stream()
                 .map(s -> new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(), s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse()))
@@ -59,4 +61,10 @@ public class SerieService {
     }
 
 
+    public List<EpisodioDTO> obterTemporadasPorNumero(Long id, Long numero) {
+        return serieRepository.obterEpisodiosPorTemporada(id, numero)
+                .stream()
+                .map(e -> new EpisodioDTO(e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo()))
+                .collect(Collectors.toList());
+    }
 }
