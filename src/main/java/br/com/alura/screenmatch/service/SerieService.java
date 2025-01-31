@@ -8,7 +8,6 @@ import br.com.alura.screenmatch.repository.SerieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,11 +19,11 @@ public class SerieService {
     @Autowired
     private SerieRepository serieRepository;
 
-    public List<SerieDTO> top5Series() {
+    public List<SerieDTO> obterSeries() {
         return converteDados(serieRepository.findAll());
     }
 
-    public List<SerieDTO> obterSeries() {
+    public List<SerieDTO> top5Series() {
         return converteDados(serieRepository.findTop5ByOrderByAvaliacaoDesc());
     }
 
@@ -54,16 +53,9 @@ public class SerieService {
         return null;
     }
 
-    private List<SerieDTO> converteDados(List<Serie> series) {
-        return serieRepository.findAll()
-                .stream()
-                .map(s -> new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(), s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse()))
-                .collect(Collectors.toList());
-    }
-
-    public List<SerieDTO> obterSeriePorCategoria(String categoria) {
-        Categoria categoriaConvertida = Categoria.fromPortugues(categoria);
-        return converteDados(serieRepository.findByGenero(categoriaConvertida));
+    public List<SerieDTO> obterSeriePorCategoria(String genero) {
+        Categoria categoria = Categoria.fromPortugues(genero);
+        return converteDados(serieRepository.findByGenero(categoria));
     }
 
     public List<EpisodioDTO> obterTemporadasPorNumero(Long id, Long numero) {
@@ -72,5 +64,12 @@ public class SerieService {
                 .map(e -> new EpisodioDTO(e.getTemporada(), e.getNumeroEpisodio(), e.getTitulo()))
                 .collect(Collectors.toList());
     }
+
+    private List<SerieDTO> converteDados(List<Serie> series) {
+        return series.stream()
+                .map(s -> new SerieDTO(s.getId(), s.getTitulo(), s.getTotalTemporadas(), s.getAvaliacao(), s.getGenero(), s.getAtores(), s.getPoster(), s.getSinopse()))
+                .collect(Collectors.toList());
+    }
+
 
 }
