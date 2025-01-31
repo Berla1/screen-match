@@ -3,7 +3,7 @@ package br.com.alura.screenmatch.controller;
 import br.com.alura.screenmatch.dto.EpisodioDTO;
 import br.com.alura.screenmatch.dto.SerieDTO;
 
-import br.com.alura.screenmatch.model.Serie;
+import br.com.alura.screenmatch.model.Categoria;
 import br.com.alura.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,5 +48,10 @@ public class SerieController {
     @GetMapping("/{id}/temporadas/{numero}")
     public List<EpisodioDTO> obterTemporadasPorNumero(@PathVariable Long id, @PathVariable Long numero){
         return service.obterTemporadasPorNumero(id, numero);
+    }
+
+    @GetMapping("/categoria/{categoria}")
+    public List<SerieDTO> obterSeriePorGenero(@PathVariable String categoria){
+        return service.obterSeriePorCategoria(categoria);
     }
 }
